@@ -14,14 +14,14 @@ form.addEventListener("submit", (e) => {
   shortenUrl(url);
 });
 
+const newUrl = document.createElement("div");
 async function shortenUrl(url) {
   try {
     const res = await fetch(`https://api.shrtco.de/v2/shorten?url=${url}`);
     const data = await res.json();
-    const newUrl = document.createElement("div");
     newUrl.classList.add("item");
     newUrl.innerHTML = `
-   <p> ${data.result.short_link}</p>
+   <p>${data.result.short_link}</p>
    <button class="newUrl-btn" >Copy</button>
    `;
     result.prepend(newUrl);
@@ -31,6 +31,7 @@ async function shortenUrl(url) {
     });
     input.value = "";
   } catch (err) {
-    console.log(err);
+    newUrl.innerHTML = `<p>Something Went Wrong :(</p>`;
+    result.prepend(newUrl);
   }
 }
